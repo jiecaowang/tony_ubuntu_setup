@@ -1,0 +1,9 @@
+#!/bin/sh
+# Re-send "RGB off" after resume from suspend/hibernate. On hosts where USB
+# stays powered through suspend, the udev "add" rule does not fire on resume,
+# so we explicitly poke the controllers here. Failures are non-fatal.
+case "$1" in
+    post)
+        /usr/local/sbin/mechrevo-rgb-off >/dev/null 2>&1 || true
+        ;;
+esac

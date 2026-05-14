@@ -1,0 +1,4 @@
+# USB autosuspend off: SteelSeries Sensei (1038:136b) + Genesys hub (05e3:0610)
+# Install: sudo cp 50-usb-autosuspend-off.rules /etc/udev/rules.d/ && sudo udevadm control --reload-rules && sudo udevadm trigger
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1038", ATTR{idProduct}=="136b", TEST=="power/control", ATTR{power/control}="on"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="05e3", ATTR{idProduct}=="0610", TEST=="power/control", ATTR{power/control}="on"

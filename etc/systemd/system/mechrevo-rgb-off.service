@@ -1,0 +1,10 @@
+[Unit]
+Description=Turn off MECHREVO chassis & lid RGB LEDs (ITE 8291 / 8233)
+Documentation=https://github.com/pobrn/ite8291r3-ctl
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/mechrevo-rgb-off
+# Be quiet about journal noise from successful runs.
+StandardOutput=journal
+StandardError=journal

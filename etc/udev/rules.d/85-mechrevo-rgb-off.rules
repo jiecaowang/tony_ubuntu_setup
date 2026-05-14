@@ -1,0 +1,5 @@
+# Fire the systemd oneshot whenever an ITE RGB controller appears on USB.
+# Covers cold boot (USB enumerates after the kernel comes up) and any USB
+# reset / re-enumerate (e.g. resume from suspend on hosts that drop power).
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="600b", TAG+="systemd", ENV{SYSTEMD_WANTS}+="mechrevo-rgb-off.service"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="048d", ATTR{idProduct}=="7001", TAG+="systemd", ENV{SYSTEMD_WANTS}+="mechrevo-rgb-off.service"

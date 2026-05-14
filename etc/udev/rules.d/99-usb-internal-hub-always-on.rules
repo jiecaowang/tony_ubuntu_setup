@@ -1,0 +1,3 @@
+# Genesys internal USB hubs — keep active so downstream mouse is not power-cycled.
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="05e3", ATTR{idProduct}=="0610", TEST=="power/control", ATTR{power/control}="on"
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="05e3", ATTR{idProduct}=="0620", TEST=="power/control", ATTR{power/control}="on"

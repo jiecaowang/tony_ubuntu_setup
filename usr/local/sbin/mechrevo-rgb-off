@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Turn off MECHREVO chassis bar + lid logo RGB. Same "effect off" control
+# transfer the Windows MECHREVO control panel sends; lifted from
+# pobrn/ite8291r3-ctl (8291 rev 0.03). The 8233 (lid logo, 048d:7001) accepts
+# the same payload on the MECHREVO units that ship both controllers.
+#
+# Run as root via the matching udev rule + systemd service; running as a normal
+# user would also work but requires plugdev/udev access on the USB device.
+
+import sys
+
+import usb.core
+import usb.util
+
+VENDOR_ID = 0x048D
+# 600b = ITE 8291 (chassis / light bar); 7001 = ITE 8233 (lid / logo zone).
+PRODUCT_IDS = (0x600B, 0x7001)
+SET_EFFECT = 8
+RGB_IFACE = 1
+
+
+def _send_off(dev) -> None:
+    payload = (SET_EFFECT, 0x01, 0, 0, 0, 0, 0, 0)
+    dev.ctrl_transfer(
+        usb.util.build_request_type(
+            usb.util.CTRL_OUT,
+            usb.util.CTRL_TYPE_CLASS,
+            usb.util.CTRL_RECIPIENT_INTERFACE,
+        ),
+        0x009,
+        0x300,
+        0x001,
+        payload,
+    )
+
+
+def _poke(pid: int) -> tuple[bool, str]:
+    dev = usb.core.find(idVendor=VENDOR_ID, idProduct=pid)
+    if dev is None:
+        return False, "no device"
+    detached = False
+    try:
+        if dev.is_kernel_driver_active(RGB_IFACE):
+            dev.detach_kernel_driver(RGB_IFACE)
+            detached = True
+        _send_off(dev)
+    except usb.core.USBError as exc:
+        return False, str(exc)
+    finally:
+        if detached:
+            try:
+                dev.attach_kernel_driver(RGB_IFACE)
+            except usb.core.USBError:
+                pass
+    return True, "ok"
+
+
+def main() -> int:
+    any_ok = False
+    for pid in PRODUCT_IDS:
+        label = "8291 chassis/bar" if pid == 0x600B else "8233 lid/logo"
+        ok, detail = _poke(pid)
+        if ok:
+            print(f"048d:{pid:04x} ({label}): RGB off sent.")
+            any_ok = True
+        elif detail != "no device":
+            print(f"048d:{pid:04x} ({label}): {detail}", file=sys.stderr)
+    if not any_ok:
+        ids = ", ".join(f"{p:04x}" for p in PRODUCT_IDS)
+        print(
+            f"No ITE RGB USB controller (048d:{{{ids}}}) found. lsusb -d 048d:",
+            file=sys.stderr,
+        )
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

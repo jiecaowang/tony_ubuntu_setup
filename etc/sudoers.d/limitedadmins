@@ -1,0 +1,2 @@
+# Stale NOPASSWD entries for removed xkeysnail/kinto were deleted (2026-05-12).
+Defaults    secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11/bin"

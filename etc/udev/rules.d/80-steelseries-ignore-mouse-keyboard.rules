@@ -1,0 +1,3 @@
+# SteelSeries Sensei exposes a bogus USB "keyboard" (macros). It can fight Scroll/LED state with EV_LED.
+# Ignored by libinput (GNOME/Wayland). If mouse side buttons stop working, remove this rule and replug.
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", ATTR{name}=="La-VIEW Technology SteelSeries Sensei MLG Keyboard", ENV{LIBINPUT_IGNORE_DEVICE}="1"
