@@ -30,13 +30,9 @@ tony_ubuntu_setup/
 
 ## Install / re-install
 
-```bash
-sudo ~/workplace/tony_ubuntu_setup/install.sh
-```
+For the complete, step-by-step guide on reinstalling and restoring all configurations after a clean OS install, please refer to the dedicated document: [`INSTALLATION.md`](./INSTALLATION.md). This file contains the full sequence of actions required.
 
-Safe to run repeatedly. Always backs up replaced files to
-`/var/backups/tony_ubuntu_setup-<timestamp>/`. The PAM section auto-rolls back
-if the Cursor agent bypass self-test fails (so you never get locked out of sudo).
+The `install.sh` script remains the primary tool for running the deployment process once you are in an environment where it can execute system commands.
 
 ## What it installs
 
