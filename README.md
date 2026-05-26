@@ -31,7 +31,7 @@ tony_ubuntu_setup/
 ## Install / re-install
 
 ```bash
-sudo ~/tony_ubuntu_setup/install.sh
+sudo ~/workplace/tony_ubuntu_setup/install.sh
 ```
 
 Safe to run repeatedly. Always backs up replaced files to
@@ -68,4 +68,4 @@ if the Cursor agent bypass self-test fails (so you never get locked out of sudo)
 - `docs/MONITOR_FIX.md` — LG UltraGear G-SYNC monitor not lighting up; root
   cause + post-reboot verification commands. Generated 2026-05-13 during the
   `prime-select on-demand → nvidia` switch.
-- `docs/tony_ubuntu_pref.md` — full personal Ubuntu setup preferences.
+- `docs/template_mechrevo_setup.md` — Template for creating similar setup repos (Mechrevo specific).

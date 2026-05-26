@@ -3,7 +3,7 @@
 # Cursor agent bypass: if the invoking process tree carries
 # CURSOR_INVOKED_AS=agent (set by Cursor's agent CLI), skip authentication.
 # Manual sudo from any normal terminal still falls through to common-auth.
-auth    [success=done default=ignore]   pam_exec.so quiet /usr/local/sbin/cursor-sudo-bypass.sh
+auth    [success=done default=ignore]   pam_exec.so seteuid quiet /usr/local/sbin/cursor-sudo-bypass.sh
 
 # Set up user limits from /etc/security/limits.conf.
 session    required   pam_limits.so
